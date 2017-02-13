@@ -30,7 +30,6 @@ except:
   f = open(cache_filename,"w") # open a file to WRITE the data to since you didn't have one
   f.write(text_data_from_site)
   f.close()
-rm -
 
 #####################
 
@@ -56,8 +55,15 @@ rm -
 ## Write your code to complete this task here.
 ## HINT: Remember that you'll need to open the file you created in Part 1, read the contets into one big string, and make a BeautifulSoup object out of that string!
 ## NOTE that the provided link does not include saving the online data in a file as part of the process. But it still provides very useful hints/tricks about how to look for and identify the headlines on the NY Times page.
-
-
+ny_times_headlines = []
+getting_from_soup = BeautifulSoup(text_data_from_site, "html.parser")
+finding_headlines = soup.find_all(class_ = "story-heading")
+for item in finding_headlines:
+	if item.a:
+		ny_times_headlines.append(item.a.text.replace("\n", " ").strip())
+	else:
+		ny_times_headlines.append(item.contents[0].strip())
+nytimes_headlines = ny_times_headlines[:10]
 
 
 #####################
@@ -83,6 +89,8 @@ htmldoc = response.text
 soup = BeautifulSoup(htmldoc,"html.parser")
 people = soup.find_all("div",{"class":"views-row"})
 umsi_titles = {}
+for person in people:
+
 
 ## It may be helpful to translate the following from English to code:
 
