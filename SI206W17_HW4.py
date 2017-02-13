@@ -57,7 +57,7 @@ except:
 ## NOTE that the provided link does not include saving the online data in a file as part of the process. But it still provides very useful hints/tricks about how to look for and identify the headlines on the NY Times page.
 ny_times_headlines = []
 getting_from_soup = BeautifulSoup(text_data_from_site, "html.parser")
-finding_headlines = soup.find_all(class_ = "story-heading")
+finding_headlines = getting_from_soup.find_all(class_ = "story-heading")
 for item in finding_headlines:
 	if item.a:
 		ny_times_headlines.append(item.a.text.replace("\n", " ").strip())
@@ -89,8 +89,6 @@ htmldoc = response.text
 soup = BeautifulSoup(htmldoc,"html.parser")
 people = soup.find_all("div",{"class":"views-row"})
 umsi_titles = {}
-for person in people:
-
 
 ## It may be helpful to translate the following from English to code:
 
@@ -99,14 +97,10 @@ for person in people:
 ## Find the container that holds the title that belongs to that person (HINT: a class name)
 ## Grab the text of each of those elements and put them in the dictionary umsi_titles properly
 
-
-
-
-
-
-
-
-
+for person in people:
+	name = person.find('div', {"property":"dc:title"})
+	title = person.find('div', {"class":"field-name-field-person-titles"})
+	umsi_titles[name.text] = title.text
 
 ######### UNIT TESTS; DO NOT CHANGE ANY CODE BELOW THIS LINE #########
 #### NOTE: hard-coding to pass any of these tests w/o following assignment instructions is not acceptable for points
